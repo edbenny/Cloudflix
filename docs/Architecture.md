@@ -10,7 +10,7 @@ The platform was built using a multi-tier architecture consisting of Apache fron
 
 ## Project Status
 
-CloudFlix was completed as part of a cloud infrastructure course at the New Jersey Institute of Technology (NJIT). The AWS environment has since been decommissioned to prevent ongoing cloud costs, but this repository preserves the application's architecture, implementation details, and engineering decisions.
+CloudFlix was completed as part of a cloud infrastructure course (IT342: Cloud Administration) at the New Jersey Institute of Technology (NJIT). The AWS environment has since been decommissioned to prevent ongoing cloud costs, but this repository preserves the application's architecture, implementation details, and engineering decisions.
 
 The documentation below provides an overview of the infrastructure, networking, security, monitoring, and application design used throughout the project.
 
