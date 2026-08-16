@@ -1,21 +1,5 @@
 # CloudFlix Architecture
 
-## Project Overview
-
-CloudFlix is a full-stack movie discovery platform designed to demonstrate modern cloud infrastructure, networking, and application deployment on Amazon Web Services (AWS). The application enables users to discover movies through The Movie Database (TMDB), create accounts, maintain personal watchlists, publish movie reviews, and generate AI-powered summaries that combine community reviews from both CloudFlix and TMDB.
-
-The platform was built using a multi-tier architecture consisting of Apache frontend servers, Flask backend APIs, and a MariaDB database deployed across multiple Availability Zones. Supporting AWS services such as an Application Load Balancer, CloudWatch Logs, Amazon S3, and Cloudflare DNS were integrated to improve scalability, monitoring, and operational reliability.
-
----
-
-## Project Status
-
-CloudFlix was completed as part of a cloud infrastructure course (IT342: Cloud Administration) at the New Jersey Institute of Technology (NJIT). The AWS environment has since been decommissioned to prevent ongoing cloud costs, but this repository preserves the application's architecture, implementation details, and engineering decisions.
-
-The documentation below provides an overview of the infrastructure, networking, security, monitoring, and application design used throughout the project.
-
-# CloudFlix Architecture
-
 ## 1. Architecture Overview
 
 CloudFlix was deployed as a multi-tier web application on Amazon Web Services across two Availability Zones. The environment separated frontend, backend, and database resources into dedicated network tiers.
