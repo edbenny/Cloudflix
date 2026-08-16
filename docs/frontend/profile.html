@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CloudFlix – My Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="profile.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="logo" href="index.html">CloudFlix</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="mylist.html">Watchlist</a>
+      <a href="browse.html">Browse</a>
+      <a href="profile.html" class="active">Profile</a>
+    </div>
+    <div class="nav-right">
+      <span class="nav-username">Hi, Alex</span>
+      <div class="nav-avatar">A</div>
+      <a class="nav-logout" href="login.html">Sign Out</a>
+    </div>
+  </nav>
+
+  <!-- BANNER -->
+  <div class="banner"></div>
+
+  <!-- PROFILE HEADER -->
+  <div class="profile-header">
+    <div class="avatar-large" id="profileAvatar">A</div>
+    <div class="profile-info">
+      <div class="profile-name" id="profileName">Alex Johnson</div>
+      <div class="profile-meta">
+        <!-- Change class to "profile-badge admin" for admin accounts -->
+        <span class="profile-badge" id="accountBadge">Regular User</span>
+        <span class="profile-joined">Member since March 2025</span>
+      </div>
+    </div>
+    <div class="profile-actions">
+      <button class="btn-edit">Edit Profile</button>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-num" id="statWatchlist">0</div>
+      <div class="stat-label">Watchlist</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="statReviews">0</div>
+      <div class="stat-label">Reviews</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="statAvgRating">—</div>
+      <div class="stat-label">Avg Rating</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="statComments">0</div>
+      <div class="stat-label">Comments</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('watchlist', this)">My Watchlist</div>
+    <div class="tab" onclick="switchTab('reviews', this)">My Reviews</div>
+    <div class="tab" onclick="switchTab('account', this)">Account Info</div>
+  </div>
+
+  <!-- TAB: WATCHLIST -->
+  <div id="tab-watchlist" class="tab-section active">
+    <div class="section-title">Watchlist</div>
+    <div class="movies-grid" id="profileWatchlistGrid">
+      <!-- Populated by JS via GET /api/watchlist -->
+    </div>
+    <div id="profileWatchlistEmpty" style="display:none; padding:20px 0; color:var(--muted); font-size:14px;">
+      Your watchlist is empty. <a href="browse.html" style="color:var(--red)">Browse movies</a> to add some.
+    </div>
+  </div>
+
+  <!-- TAB: REVIEWS -->
+  <div id="tab-reviews" class="tab-section">
+    <div class="section-title">My Reviews</div>
+    <div class="review-list" id="myReviewList">
+      <!-- Populated by JS via GET /api/reviews/mine -->
+    </div>
+  </div>
+
+  <!-- TAB: ACCOUNT INFO -->
+  <div id="tab-account" class="tab-section">
+    <div class="section-title">Account Info</div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-label">Username</div>
+        <div class="info-value" id="infoUsername">Alex</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Last Name</div>
+        <div class="info-value">Johnson</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Email Address</div>
+        <div class="info-value">alex@example.com</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Account Type</div>
+        <div class="info-value" id="accountType">Regular User</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Password</div>
+        <div class="info-value masked">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">MFA Status</div>
+        <div class="info-value success">&#10003; Enabled</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Member Since</div>
+        <div class="info-value">March 2025</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Last Login</div>
+        <div class="info-value">Today, 3:42 PM</div>
+      </div>
+    </div>
+    <button class="change-password-btn">Change Password</button>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">CloudFlix</div>
+    <div class="footer-text">IT 342 &nbsp;&middot;&nbsp; Cloud Computing Project &nbsp;&middot;&nbsp; Built on AWS</div>
+    <div class="footer-text">&copy; 2025 CloudFlix</div>
+  </footer>
+
+  <script>
+    function switchTab(id, el) {
+      // Update tab styles
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+
+      // Show correct section
+      document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+      document.getElementById('tab-' + id).classList.add('active');
+    }
+
+    // TODO: When backend is connected, populate profile data like this:
+    // fetch('/api/profile')
+    //   .then(res => res.json())
+    //   .then(user => {
+    //     document.querySelector('.profile-name').textContent = user.firstName + ' ' + user.lastName;
+    //     document.getElementById('accountBadge').textContent = user.role === 'admin' ? 'Admin' : 'Regular User';
+    //     if (user.role === 'admin') document.getElementById('accountBadge').classList.add('admin');
+    //   });
+  </script>
+
+  <script>
+    (function() {
+      const user = localStorage.getItem("cloudflix_user");
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+      const initial = user.charAt(0).toUpperCase();
+      // Nav
+      const navUsername = document.querySelector(".nav-username");
+      const navAvatar   = document.querySelector(".nav-avatar");
+      if (navUsername) navUsername.textContent = "Hi, " + user;
+      if (navAvatar)   navAvatar.textContent   = initial;
+      // Profile header
+      const profileAvatar = document.getElementById("profileAvatar");
+      const profileName   = document.getElementById("profileName");
+      const infoUsername  = document.getElementById("infoUsername");
+      if (profileAvatar) profileAvatar.textContent = initial;
+      if (profileName)   profileName.textContent   = user;
+      if (infoUsername)  infoUsername.textContent  = user;
+
+      // ── ROLE-AWARE UI ──
+      // The role here is purely for UX (showing the right label).
+      // All real permission checks happen server-side.
+      const role = localStorage.getItem("cloudflix_role") || "user";
+      const isAdmin = (role === "admin");
+
+      // Profile header badge
+      const accountBadge = document.getElementById("accountBadge");
+      if (accountBadge) {
+        accountBadge.textContent = isAdmin ? "Admin" : "Regular User";
+        if (isAdmin) accountBadge.classList.add("admin");
+      }
+
+      // Account Info tab — "Account Type" field
+      const accountTypeEl = document.getElementById("accountType");
+      if (accountTypeEl) {
+        accountTypeEl.textContent = isAdmin ? "Admin" : "Regular User";
+      }
+    })();
+  </script>
+
+  <!-- ── MY REVIEWS (tab + stats) ── -->
+  <script>
+    function esc(s) {
+      if (s == null) return '';
+      return String(s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function formatDate(iso) {
+      if (!iso) return '';
+      const d = new Date(iso);
+      if (isNaN(d)) return '';
+      return d.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    function starsHtml(n) {
+      const filled = '\u2605'.repeat(n);
+      const empty  = '\u2606'.repeat(Math.max(0, 5 - n));
+      return filled + empty;
+    }
+
+    function renderMyReview(review) {
+      const card = document.createElement('div');
+      card.className = 'review-card';
+      card.dataset.reviewId = review.id;
+      card.innerHTML = `
+        <div class="review-header">
+          <div class="review-movie">
+            <a href="movie.html?id=${review.tmdb_id}" style="color:inherit;text-decoration:none">${esc(review.movie_title)}</a>
+          </div>
+          <div class="review-stars">${starsHtml(review.rating)}</div>
+        </div>
+        <div class="review-body">${esc(review.body)}</div>
+        <div class="review-footer">
+          <span class="review-date">${formatDate(review.created_at)}</span>
+          <div class="review-actions">
+            <button class="review-btn" onclick="goEdit(${review.tmdb_id})">Edit on movie page</button>
+            <button class="review-btn delete" onclick="deleteMyReview(${review.id})">Delete</button>
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    function goEdit(tmdbId) {
+      window.location.href = `movie.html?id=${tmdbId}`;
+    }
+
+    async function deleteMyReview(reviewId) {
+      if (!confirm('Delete this review?')) return;
+      try {
+        const res = await fetch(`/api/reviews/${reviewId}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        });
+        const data = await res.json();
+        if (!res.ok) { alert(data.error || 'Failed to delete'); return; }
+        await loadMyReviews();
+      } catch (err) {
+        console.error(err);
+        alert('Network error — could not delete review.');
+      }
+    }
+
+    async function loadMyReviews() {
+      const list = document.getElementById('myReviewList');
+      try {
+        const res = await fetch('/api/reviews/mine', { credentials: 'include' });
+        if (!res.ok) {
+          if (res.status === 401) {
+            // not logged in — profile.html already redirects on no user, this is belt+suspenders
+            return;
+          }
+          throw new Error('HTTP ' + res.status);
+        }
+        const reviews = await res.json();
+
+        list.innerHTML = '';
+        if (reviews.length === 0) {
+          list.innerHTML = '<p style="color:var(--muted);font-size:14px;padding:14px 0">You haven&#39;t written any reviews yet.</p>';
+        } else {
+          reviews.forEach(r => list.appendChild(renderMyReview(r)));
+        }
+
+        // Update stats
+        const statReviews = document.getElementById('statReviews');
+        if (statReviews) statReviews.textContent = reviews.length;
+
+        const statAvg = document.getElementById('statAvgRating');
+        if (statAvg) {
+          if (reviews.length === 0) {
+            statAvg.textContent = '—';
+          } else {
+            const sum = reviews.reduce((acc, r) => acc + r.rating, 0);
+            statAvg.textContent = (sum / reviews.length).toFixed(1);
+          }
+        }
+      } catch (err) {
+        console.error(err);
+        list.innerHTML = '<p style="color:var(--muted);font-size:14px;padding:14px 0">Could not load your reviews.</p>';
+      }
+    }
+
+    loadMyReviews();
+  </script>
+
+  <!-- ── PROFILE WATCHLIST ── -->
+  <script src="watchlist.js"></script>
+  <script>
+    (async function () {
+      const grid  = document.getElementById('profileWatchlistGrid');
+      const empty = document.getElementById('profileWatchlistEmpty');
+      if (!grid) return;
+
+      if (!Watchlist.isLoggedIn()) return;  // profile redirects to login already
+
+      let items = [];
+      try { items = await Watchlist.getAll(); }
+      catch (err) { console.error(err); }
+
+      // Update the Watchlist stat
+      const stat = document.getElementById('statWatchlist');
+      if (stat) stat.textContent = items.length;
+
+      if (items.length === 0) {
+        grid.style.display = 'none';
+        empty.style.display = 'block';
+        return;
+      }
+
+      grid.innerHTML = '';
+      items.forEach(item => {
+        const link = document.createElement('a');
+        link.href = `movie.html?id=${item.tmdb_id}`;
+        link.style.cssText = 'text-decoration:none;color:inherit;display:block';
+        link.innerHTML = `
+          <div class="movie-card">
+            <div class="card-poster" style="background-image:url('${Watchlist.posterUrl(item.poster_path)}'); background-size:cover; background-position:center;"></div>
+            <div class="card-overlay">
+              <button class="card-remove-btn" onclick="event.preventDefault();event.stopPropagation();removeFromProfileWatchlist(${item.tmdb_id})">Remove</button>
+            </div>
+            <div class="card-info">
+              <div class="card-title-text">${Watchlist.esc(item.movie_title)}</div>
+              <div class="card-meta-row">
+                <span class="card-year">${item.release_year || ''}</span>
+                <span class="card-rating">${item.vote_average != null ? '&#9733; ' + item.vote_average.toFixed(1) : ''}</span>
+              </div>
+            </div>
+          </div>
+        `;
+        grid.appendChild(link);
+      });
+    })();
+
+    async function removeFromProfileWatchlist(tmdbId) {
+      if (!confirm('Remove from your watchlist?')) return;
+      const ok = await Watchlist.remove(tmdbId);
+      if (ok) location.reload();
+    }
+  </script>
+
+  <script>
+    // Logout clears localStorage
+    const logoutLink = document.querySelector(".nav-logout");
+    if (logoutLink) {
+      logoutLink.addEventListener("click", function(e) {
+        e.preventDefault();
+        localStorage.removeItem("cloudflix_user");
+        localStorage.removeItem("cloudflix_role");
+        fetch("/logout", { method: "POST", credentials: "include" }).finally(() => {
+          window.location.href = "login.html";
+        });
+      });
+    }
+  </script>
+</body>
+</html>

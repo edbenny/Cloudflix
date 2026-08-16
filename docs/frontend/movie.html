@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CloudFlix – Movie Details</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="movie.css" rel="stylesheet">
+</head>
+<body>
+
+  <nav>
+    <a class="logo" href="index.html">CloudFlix</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="browse.html">Browse</a>
+      <a href="mylist.html">My List</a>
+      <a href="profile.html">Profile</a>
+    </div>
+    <div class="nav-right" id="navRight">
+      <!-- Populated by JS below based on login state -->
+    </div>
+  </nav>
+
+  <!-- HERO BACKDROP -->
+  <div class="hero-backdrop">
+    <div class="hero-art">
+    </div>
+    <div class="hero-gradient"></div>
+    <div class="hero-gradient-side"></div>
+    <div class="hero-content">
+      <div class="hero-poster"></div>
+      <div class="hero-info">
+        <div class="hero-breadcrumb">
+          <a href="browse.html">Browse</a>
+          <span>/</span>
+          <a href="browse.html">Sci-Fi</a>
+        </div>
+        <div class="hero-title">Dune:<br><span>Part Two</span></div>
+        <div class="hero-meta">
+          <span class="meta-rating">&#9733; 8.5 <span class="meta-votes">(248K)</span></span>
+          <span class="meta-year">2024</span>
+          <span class="meta-runtime">2h 46m</span>
+          <span class="meta-rated">PG-13</span>
+        </div>
+        <div class="genre-pills">
+          <span class="genre-pill">Sci-Fi</span>
+          <span class="genre-pill">Epic</span>
+          <span class="genre-pill">Drama</span>
+          <span class="genre-pill">Adventure</span>
+        </div>
+        <div class="hero-tagline">"Long live the fighters."</div>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="playTrailer()">&#9654; Watch Trailer</button>
+          <button class="btn-secondary" id="listBtn" onclick="toggleList()">&#43; My List</button>
+          <button class="btn-secondary">&#128172; Reviews</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body-wrap">
+
+    <!-- LEFT COLUMN -->
+    <div class="left-col">
+
+      <!-- SYNOPSIS -->
+      <div class="section">
+        <div class="section-title">Overview</div>
+        <p class="synopsis">
+          Paul Atreides unites with Chani and the Fremen while on a warpath of revenge against the conspirators who destroyed his family. Facing a choice between the love of his life and the fate of the known universe, he endeavors to prevent a terrible future only he can foresee. As Paul is drawn deeper into the politics and mysticism of the Fremen people, he must decide who he truly is — and what he is willing to sacrifice to protect the world he has come to call home.
+        </p>
+      </div>
+
+      <!-- AI REVIEW SUMMARY -->
+      <div class="section">
+        <div class="section-title">AI Review Summary</div>
+        <div class="ai-summary-box">
+          <div class="ai-summary-header">
+            <span class="ai-badge">AI SUMMARY</span>
+            <span style="color:var(--muted);font-size:12px">Based on 248 user reviews</span>
+          </div>
+          <p class="ai-summary-text">
+            Viewers overwhelmingly praise the film's stunning cinematography and Hans Zimmer's immersive score. Timothée Chalamet and Zendaya receive high marks for their chemistry, with many calling it a significant improvement over Part One. The action sequences, particularly the sandworm riding scenes, are frequently cited as highlights. A minority of reviewers felt the pacing in the second act slowed the momentum, and some newcomers to the Dune universe found the lore dense. Overall, the consensus is that Part Two is a rare blockbuster that delivers on both spectacle and substance.
+            <!-- TODO: Replace with real AI API call -->
+            <!-- fetch('/api/ai-summary?movieId=dune-part-two') -->
+          </p>
+        </div>
+      </div>
+
+      <!-- TRAILER -->
+      <div class="section">
+        <div class="section-title">Trailer</div>
+        <div class="trailer-wrap">
+          <div class="trailer-thumb" id="trailerThumb" onclick="playTrailer()">
+            <div class="trailer-play-btn">&#9654;</div>
+          </div>
+          <!-- Embedded YouTube iframe — swap VIDEO_ID with real ID -->
+          <div class="trailer-iframe-wrap" id="trailerIframe">
+            <iframe
+              referrerpolicy="strict-origin-when-cross-origin"
+              src="https://www.youtube.com/embed/Way9Dexny3w?autoplay=1"
+              allow="autoplay; encrypted-media"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <div class="trailer-label">
+            <span>Official Trailer &nbsp;&middot;&nbsp; Warner Bros. Pictures</span>
+            <span style="color:var(--muted);font-size:11px">2:39</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAST -->
+      <div class="section">
+        <div class="section-title">Cast</div>
+        <div class="cast-grid">
+          <div class="cast-card">
+            <div class="cast-avatar">
+              <img src="" alt="Actor">
+            </div>
+            <div class="cast-name">Timothée Chalamet</div>
+            <div class="cast-role">Paul Atreides</div>
+          </div>
+          <div class="cast-card">
+            <div class="cast-avatar">
+              <img src="" alt="Actor">
+            </div>
+            <div class="cast-name">Zendaya</div>
+            <div class="cast-role">Chani</div>
+          </div>
+          <div class="cast-card">
+            <div class="cast-avatar">
+              <img src="" alt="Actor">
+            </div>
+            <div class="cast-name">Rebecca Ferguson</div>
+            <div class="cast-role">Lady Jessica</div>
+          </div>
+          <div class="cast-card">
+            <div class="cast-avatar">
+              <img src="" alt="Actor">
+            </div>
+            <div class="cast-name">Javier Bardem</div>
+            <div class="cast-role">Stilgar</div>
+          </div>
+          <div class="cast-card">
+            <div class="cast-avatar">
+              <img src="" alt="Actor">
+            </div>
+            <div class="cast-name">Austin Butler</div>
+            <div class="cast-role">Feyd-Rautha</div>
+          </div>
+          <div class="cast-card">
+            <div class="cast-avatar">
+              <img src="" alt="Actor">
+            </div>
+            <div class="cast-name">Florence Pugh</div>
+            <div class="cast-role">Princess Irulan</div>
+          </div>
+          <div class="cast-card">
+            <div class="cast-avatar">
+              <img src="" alt="Actor">
+            </div>
+            <div class="cast-name">Christopher Walken</div>
+            <div class="cast-role">Emperor</div>
+          </div>
+          <div class="cast-card">
+            <div class="cast-avatar">
+              <img src="" alt="Actor">
+            </div>
+            <div class="cast-name">Léa Seydoux</div>
+            <div class="cast-role">Lady Margot</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REVIEWS -->
+      <div class="section">
+        <div class="reviews-header">
+          <div class="reviews-title">User Reviews</div>
+          <button class="write-review-btn" onclick="toggleReviewForm()">&#43; Write a Review</button>
+        </div>
+
+        <!-- WRITE REVIEW FORM -->
+        <div class="review-form" id="reviewForm">
+          <label>Your Rating</label>
+          <div class="star-select" id="starSelect">
+            <span onclick="setStars(1)">&#9733;</span>
+            <span onclick="setStars(2)">&#9733;</span>
+            <span onclick="setStars(3)">&#9733;</span>
+            <span onclick="setStars(4)">&#9733;</span>
+            <span onclick="setStars(5)">&#9733;</span>
+          </div>
+          <label>Your Review</label>
+          <textarea class="review-textarea" id="reviewText" placeholder="What did you think of this movie?"></textarea>
+          <div class="review-form-actions">
+            <button class="btn-submit-review" onclick="submitReview()">Post Review</button>
+            <button class="btn-cancel-review" onclick="toggleReviewForm()">Cancel</button>
+          </div>
+        </div>
+
+        <div class="review-list" id="reviewList">
+          <!-- Reviews populated by JS via GET /api/reviews?tmdb_id=... -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <div class="sidebar">
+
+      <!-- RATING BREAKDOWN -->
+      <div class="info-card">
+        <div class="info-card-title">Rating</div>
+        <div class="rating-big">
+          <div class="rating-num">8.5</div>
+          <div class="rating-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+          <div class="rating-count">248,412 ratings on IMDb</div>
+        </div>
+        <div class="rating-bar-row"><span class="rating-bar-label">5</span><div class="rating-bar-track"><div class="rating-bar-fill" style="width:62%"></div></div><span class="rating-bar-count">62%</span></div>
+        <div class="rating-bar-row"><span class="rating-bar-label">4</span><div class="rating-bar-track"><div class="rating-bar-fill" style="width:22%"></div></div><span class="rating-bar-count">22%</span></div>
+        <div class="rating-bar-row"><span class="rating-bar-label">3</span><div class="rating-bar-track"><div class="rating-bar-fill" style="width:9%"></div></div><span class="rating-bar-count">9%</span></div>
+        <div class="rating-bar-row"><span class="rating-bar-label">2</span><div class="rating-bar-track"><div class="rating-bar-fill" style="width:4%"></div></div><span class="rating-bar-count">4%</span></div>
+        <div class="rating-bar-row"><span class="rating-bar-label">1</span><div class="rating-bar-track"><div class="rating-bar-fill" style="width:3%"></div></div><span class="rating-bar-count">3%</span></div>
+      </div>
+
+      <!-- MOVIE DETAILS -->
+      <div class="info-card">
+        <div class="info-card-title">Details</div>
+        <div class="info-row"><span class="info-label">Director</span><span class="info-value">Denis Villeneuve</span></div>
+        <div class="info-row"><span class="info-label">Writers</span><span class="info-value">Jon Spaihts, Denis Villeneuve</span></div>
+        <div class="info-row"><span class="info-label">Released</span><span class="info-value">March 1, 2024</span></div>
+        <div class="info-row"><span class="info-label">Runtime</span><span class="info-value">2h 46m</span></div>
+        <div class="info-row"><span class="info-label">Budget</span><span class="info-value">$190M</span></div>
+        <div class="info-row"><span class="info-label">Box Office</span><span class="info-value">$714M</span></div>
+        <div class="info-row"><span class="info-label">Language</span><span class="info-value">English</span></div>
+        <div class="info-row"><span class="info-label">Country</span><span class="info-value">USA</span></div>
+      </div>
+
+      <!-- WHERE TO WATCH -->
+      <div class="info-card">
+        <div class="info-card-title">Where to Watch</div>
+        <div class="watch-providers">
+          <a class="provider" href="#" target="_blank">
+            <span class="provider-icon">&#127909;</span>
+            <div>
+              <div class="provider-name">Max</div>
+              <div class="provider-type">Stream included</div>
+            </div>
+            <span class="provider-arrow">&#8250;</span>
+          </a>
+          <a class="provider" href="#" target="_blank">
+            <span class="provider-icon">&#128250;</span>
+            <div>
+              <div class="provider-name">Amazon Prime Video</div>
+              <div class="provider-type">Rent from $3.99</div>
+            </div>
+            <span class="provider-arrow">&#8250;</span>
+          </a>
+          <a class="provider" href="#" target="_blank">
+            <span class="provider-icon">&#127916;</span>
+            <div>
+              <div class="provider-name">Apple TV</div>
+              <div class="provider-type">Buy from $14.99</div>
+            </div>
+            <span class="provider-arrow">&#8250;</span>
+          </a>
+          <a class="provider" href="#" target="_blank">
+            <span class="provider-icon">&#128225;</span>
+            <div>
+              <div class="provider-name">Vudu</div>
+              <div class="provider-type">Buy from $12.99</div>
+            </div>
+            <span class="provider-arrow">&#8250;</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- SIMILAR MOVIES -->
+      <div class="info-card">
+        <div class="info-card-title">Similar Movies</div>
+        <div class="similar-grid">
+          <a class="similar-card" href="movie.html">
+            <div class="similar-poster" style="background:linear-gradient(135deg,#1a1a3e,#0d0d2b)">&#128640;</div>
+            <div class="similar-info">
+              <div class="similar-title">Interstellar</div>
+              <div class="similar-meta"><span class="similar-year">2014</span><span class="similar-rating">&#9733; 8.7</span></div>
+            </div>
+          </a>
+          <a class="similar-card" href="movie.html">
+            <div class="similar-poster" style="background:linear-gradient(135deg,#0a2a1a,#0d3d24)">&#127807;</div>
+            <div class="similar-info">
+              <div class="similar-title">Avatar 3</div>
+              <div class="similar-meta"><span class="similar-year">2025</span><span class="similar-rating">&#9733; 7.8</span></div>
+            </div>
+          </a>
+          <a class="similar-card" href="movie.html">
+            <div class="similar-poster" style="background:linear-gradient(135deg,#1a001a,#2d002d)">&#127744;</div>
+            <div class="similar-info">
+              <div class="similar-title">Inception 2</div>
+              <div class="similar-meta"><span class="similar-year">2026</span><span class="similar-rating">&#9733; 9.0</span></div>
+            </div>
+          </a>
+          <a class="similar-card" href="movie.html">
+            <div class="similar-poster" style="background:linear-gradient(135deg,#001a2a,#002d42)">&#128081;</div>
+            <div class="similar-info">
+              <div class="similar-title">Black Panther 3</div>
+              <div class="similar-meta"><span class="similar-year">2026</span><span class="similar-rating">&#9733; 8.3</span></div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">CloudFlix</div>
+    <div class="footer-text">IT 342 &nbsp;&middot;&nbsp; Cloud Computing Project &nbsp;&middot;&nbsp; Built on AWS  &nbsp;&middot;&nbsp; Using TMDB API</div>
+    <div class="footer-text">&copy; 2026 CloudFlix</div>
+  </footer>
+
+  <script src="watchlist.js"></script>
+  <script>
+    // ── TRAILER ──
+    function playTrailer() {
+      document.getElementById('trailerThumb').style.display = 'none';
+      document.getElementById('trailerIframe').style.display = 'block';
+      document.getElementById('trailerIframe').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // ── MY LIST TOGGLE (watchlist) ──
+    // movieData is populated by the TMDB fetch below (title, poster, year, rating).
+    // We stash it globally so toggleList() has access when the user clicks.
+    let inList = false;
+    let movieData = null;
+
+    function setListBtn(isIn) {
+      inList = isIn;
+      const btn = document.getElementById('listBtn');
+      if (!btn) return;
+      if (inList) {
+        btn.textContent = '\u2713 In My List';
+        btn.classList.add('saved');
+      } else {
+        btn.innerHTML = '&#43; My List';
+        btn.classList.remove('saved');
+      }
+    }
+
+    async function toggleList() {
+      if (!window.Watchlist || !Watchlist.isLoggedIn()) {
+        alert('Please sign in to use your watchlist.');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Get the TMDB movie id from the URL
+      const id = parseInt(new URLSearchParams(window.location.search).get('id'), 10);
+      if (!id) return;
+
+      if (!inList) {
+        // Add — need the movie's metadata, which comes from the TMDB fetch
+        if (!movieData) {
+          alert('Movie info still loading — please try again in a moment.');
+          return;
+        }
+        const result = await Watchlist.add({
+          tmdb_id:      id,
+          movie_title:  movieData.title,
+          poster_path:  movieData.poster_path || null,
+          release_year: movieData.release_date ? parseInt(movieData.release_date.slice(0,4), 10) : null,
+          vote_average: typeof movieData.vote_average === 'number' ? movieData.vote_average : null,
+        });
+        if (result) setListBtn(true);
+      } else {
+        const ok = await Watchlist.remove(id);
+        if (ok) setListBtn(false);
+      }
+    }
+
+    // ── STAR RATING ──
+    let selectedStars = 0;
+    function setStars(n) {
+      selectedStars = n;
+      document.querySelectorAll('#starSelect span').forEach((s, i) => {
+        s.classList.toggle('lit', i < n);
+      });
+    }
+
+    // ── REVIEW FORM ──
+    function toggleReviewForm() {
+      // Require login to write a review
+      if (!localStorage.getItem("cloudflix_user")) {
+        alert("Please sign in to write a review.");
+        window.location.href = "login.html";
+        return;
+      }
+      document.getElementById('reviewForm').classList.toggle('visible');
+    }
+
+    function markHelpful(btn) {
+      // Local-only "helpful" — not backed by API yet.
+      const count = parseInt(btn.textContent.replace(/\D/g,'')) + 1;
+      btn.textContent = '👍 ' + count;
+      btn.disabled = true;
+      btn.style.borderColor = 'var(--green)';
+      btn.style.color = 'var(--green)';
+    }
+
+    // ── API-DRIVEN REVIEWS ──
+    // Permission rules enforced on the server. Frontend mirrors them for UX:
+    // - Logged-out: show Write button → prompt sign-in
+    // - Logged-in:  show Write button if no existing review for this movie
+    // - Owner:      Edit + Delete on own review
+    // - Admin:      Edit + Delete on ALL reviews
+
+    // Escape user text before injecting into HTML — prevents stored XSS.
+    function esc(s) {
+      if (s == null) return '';
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function formatDate(iso) {
+      if (!iso) return '';
+      const d = new Date(iso);
+      if (isNaN(d)) return '';
+      return d.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    function starsHtml(n) {
+      const filled = '\u2605'.repeat(n);
+      const empty  = '\u2606'.repeat(Math.max(0, 5 - n));
+      return filled + empty;
+    }
+
+    function avatarColor(name) {
+      // Stable color per username
+      const palette = ['#7c3aed','#0891b2','#b45309','#16a34a','#db2777','#0284c7','#9333ea','#c2410c'];
+      let hash = 0;
+      for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) | 0;
+      return palette[Math.abs(hash) % palette.length];
+    }
+
+    function renderReview(review, currentUsername, currentRole) {
+      // Decide which action buttons this viewer can see
+      const isOwner = currentUsername && currentUsername === review.username;
+      const isAdmin = currentRole === 'admin';
+      const canModify = isOwner || isAdmin;
+
+      const initial = (review.username || '?').charAt(0).toUpperCase();
+      const color = avatarColor(review.username || '?');
+
+      const card = document.createElement('div');
+      card.className = 'review-card';
+      card.dataset.reviewId = review.id;
+      card.innerHTML = `
+        <div class="review-header">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar" style="background:${color}">${esc(initial)}</div>
+            <div>
+              <div class="reviewer-name">${esc(review.username)}${isOwner ? ' (You)' : ''}</div>
+              <div class="reviewer-date">${formatDate(review.created_at)}</div>
+            </div>
+          </div>
+          <div class="review-stars">${starsHtml(review.rating)}</div>
+        </div>
+        <p class="review-body">${esc(review.body)}</p>
+        <div class="review-footer">
+          <div class="review-helpful">
+            Helpful?
+            <button class="helpful-btn" onclick="markHelpful(this)">👍 0</button>
+          </div>
+          ${canModify ? `
+            <div class="admin-actions">
+              <button class="admin-btn" onclick="startEditReview(${review.id})">Edit</button>
+              <button class="admin-btn delete" onclick="deleteReview(${review.id})">Delete</button>
+            </div>
+          ` : ''}
+        </div>
+      `;
+      return card;
+    }
+
+    // Holds the most recent fetch so we know which review the user already has
+    let myReviewForThisMovie = null;
+
+    async function loadReviews() {
+      if (!movieId) return;
+      try {
+        const res = await fetch(`/api/reviews?tmdb_id=${encodeURIComponent(movieId)}`, { credentials: 'include' });
+        if (!res.ok) throw new Error('Failed to load reviews: HTTP ' + res.status);
+        const reviews = await res.json();
+
+        const currentUser = localStorage.getItem("cloudflix_user");
+        const currentRole = localStorage.getItem("cloudflix_role") || 'user';
+
+        // Track if the current user already reviewed this movie — if so, hide
+        // the "Write a Review" button to enforce one-per-user-per-movie.
+        myReviewForThisMovie = reviews.find(r => r.username === currentUser) || null;
+        const writeBtn = document.querySelector('.write-review-btn');
+        if (writeBtn) {
+          writeBtn.style.display = myReviewForThisMovie ? 'none' : '';
+        }
+
+        // Render the list
+        const list = document.getElementById('reviewList');
+        list.innerHTML = '';
+        if (reviews.length === 0) {
+          list.innerHTML = '<p style="color:var(--muted);font-size:14px;padding:14px 0">No reviews yet. Be the first to write one!</p>';
+          return;
+        }
+        // Show the current user's review at the top, then the rest
+        const ordered = myReviewForThisMovie
+          ? [myReviewForThisMovie, ...reviews.filter(r => r.id !== myReviewForThisMovie.id)]
+          : reviews;
+        ordered.forEach(r => list.appendChild(renderReview(r, currentUser, currentRole)));
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function submitReview() {
+      const text = document.getElementById('reviewText').value.trim();
+      if (!text || selectedStars === 0) {
+        alert('Please add a star rating and write your review.');
+        return;
+      }
+
+      // The movie title — pulled from the page heading set by the TMDB fetch
+      const titleEl = document.querySelector('.hero-title');
+      const movieTitle = titleEl ? titleEl.textContent.trim() : 'Unknown';
+
+      try {
+        const res = await fetch('/api/reviews', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            tmdb_id:     parseInt(movieId, 10),
+            movie_title: movieTitle,
+            rating:      selectedStars,
+            body:        text
+          })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          alert(data.error || 'Failed to post review');
+          return;
+        }
+
+        // Reset form, then reload the list to show the new review
+        document.getElementById('reviewText').value = '';
+        setStars(0);
+        document.getElementById('reviewForm').classList.remove('visible');
+        await loadReviews();
+      } catch (err) {
+        console.error(err);
+        alert('Network error — could not post review.');
+      }
+    }
+
+    async function deleteReview(reviewId) {
+      if (!confirm('Delete this review?')) return;
+      try {
+        const res = await fetch(`/api/reviews/${reviewId}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          alert(data.error || 'Failed to delete review');
+          return;
+        }
+        await loadReviews();
+      } catch (err) {
+        console.error(err);
+        alert('Network error — could not delete review.');
+      }
+    }
+
+    // Inline edit: replaces the review body+stars with editable inputs.
+    function startEditReview(reviewId) {
+      const card = document.querySelector(`.review-card[data-review-id="${reviewId}"]`);
+      if (!card) return;
+
+      // Don't double-edit
+      if (card.querySelector('.edit-form')) return;
+
+      const currentBody  = card.querySelector('.review-body').textContent;
+      const currentStars = card.querySelectorAll('.review-stars')[0].textContent;
+      const currentRating = (currentStars.match(/\u2605/g) || []).length;
+
+      const editor = document.createElement('div');
+      editor.className = 'edit-form';
+      editor.style.cssText = 'margin-top:12px;padding:12px;background:var(--bg);border-radius:8px;';
+      editor.innerHTML = `
+        <div style="margin-bottom:8px">
+          <label style="font-size:12px;color:var(--muted)">Rating</label>
+          <div class="edit-stars" style="font-size:24px;color:var(--gold);cursor:pointer;letter-spacing:4px"></div>
+        </div>
+        <textarea class="edit-body" style="width:100%;min-height:80px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:10px;font-family:inherit;font-size:14px">${esc(currentBody)}</textarea>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button onclick="saveEditReview(${reviewId})" style="background:var(--red);color:#fff;border:none;padding:8px 16px;border-radius:6px;font-size:13px;cursor:pointer">Save</button>
+          <button onclick="cancelEditReview(${reviewId})" style="background:var(--surface2);color:var(--muted);border:1px solid var(--border);padding:8px 16px;border-radius:6px;font-size:13px;cursor:pointer">Cancel</button>
+        </div>
+      `;
+      card.appendChild(editor);
+
+      // Build clickable stars for editing
+      let editRating = currentRating;
+      const starsEl = editor.querySelector('.edit-stars');
+      function paintEditStars() {
+        starsEl.innerHTML = '';
+        for (let i = 1; i <= 5; i++) {
+          const span = document.createElement('span');
+          span.textContent = (i <= editRating) ? '\u2605' : '\u2606';
+          span.style.cursor = 'pointer';
+          span.onclick = () => { editRating = i; paintEditStars(); };
+          starsEl.appendChild(span);
+        }
+      }
+      paintEditStars();
+      editor.dataset.getRating = '';  // sentinel
+      editor._getRating = () => editRating;
+    }
+
+    function cancelEditReview(reviewId) {
+      const card = document.querySelector(`.review-card[data-review-id="${reviewId}"]`);
+      const editor = card && card.querySelector('.edit-form');
+      if (editor) editor.remove();
+    }
+
+    async function saveEditReview(reviewId) {
+      const card = document.querySelector(`.review-card[data-review-id="${reviewId}"]`);
+      const editor = card && card.querySelector('.edit-form');
+      if (!editor) return;
+
+      const newBody = editor.querySelector('.edit-body').value.trim();
+      const newRating = editor._getRating();
+
+      if (!newBody) { alert('Review cannot be empty.'); return; }
+      if (newRating < 1 || newRating > 5) { alert('Rating must be 1-5.'); return; }
+
+      try {
+        const res = await fetch(`/api/reviews/${reviewId}`, {
+          method: 'PUT',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ rating: newRating, body: newBody })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          alert(data.error || 'Failed to update review');
+          return;
+        }
+        await loadReviews();
+      } catch (err) {
+        console.error(err);
+        alert('Network error — could not save review.');
+      }
+    }
+
+    // useful code here
+    const params = new URLSearchParams(window.location.search);
+    const movieId = params.get("id");
+
+    console.log("Movie ID:", movieId);
+
+    // If no id was passed, bail out early — nothing to fetch.
+    if (!movieId) {
+      console.warn("No movie id in URL. Append ?id=<tmdb_id> to load a movie.");
+    } else {
+      // The TMDB bearer token now lives on the Flask server.
+      // We call our own /api/tmdb/* endpoints — no token in the browser.
+
+      // Helper: safely set text on an element if it exists
+      function setText(selector, value) {
+        const el = document.querySelector(selector);
+        if (el && value != null) el.innerHTML = value;
+      }
+
+      // Helper: safely set an indexed item on a NodeList
+      function setNthText(nodeList, i, value) {
+        if (nodeList[i] && value != null) nodeList[i].innerHTML = value;
+      }
+
+      // Format a number as $XM or $X.XB
+      function formatMoney(n) {
+        if (!n || n === 0) return 'N/A';
+        if (n >= 1e9) return '$' + (n / 1e9).toFixed(1) + 'B';
+        if (n >= 1e6) return '$' + Math.round(n / 1e6) + 'M';
+        return '$' + n.toLocaleString();
+      }
+
+      // ── MOVIE DETAILS ──
+      fetch(`/api/tmdb/movie/${movieId}`, { credentials: 'include' })
+        .then(res => {
+          if (!res.ok) throw new Error(`HTTP ${res.status} fetching movie details`);
+          return res.json();
+        })
+        .then(data => {
+          console.log('movie:', data);
+
+          // Stash globally so toggleList() (Add to Watchlist button) can use it.
+          movieData = data;
+
+          // Update the "+ My List" button based on whether it's already saved
+          if (window.Watchlist && Watchlist.isLoggedIn()) {
+            Watchlist.contains(parseInt(movieId, 10)).then(setListBtn);
+          }
+
+          const MoviesPageDesc = document.querySelectorAll(".info-value");
+
+          setText(".hero-title", data.title);
+
+          // poster
+          if (data.poster_path) {
+            const poster = document.querySelector(".hero-poster");
+            if (poster) poster.style.backgroundImage = "url('https://image.tmdb.org/t/p/w500" + data.poster_path + "')";
+          }
+
+          // tagline (often empty for some movies)
+          setText(".hero-tagline", data.tagline || '');
+
+          // background image
+          if (data.backdrop_path) {
+            const backdrop = document.querySelector(".hero-art");
+            if (backdrop) backdrop.style.backgroundImage = "url('https://image.tmdb.org/t/p/original" + data.backdrop_path + "')";
+          }
+
+          // overview
+          setText(".synopsis", data.overview);
+
+          // release date
+          if (data.release_date) {
+            setText(".meta-year", data.release_date.slice(0, 4));
+            setNthText(MoviesPageDesc, 2, data.release_date);
+          }
+
+          // rating
+          if (typeof data.vote_average === 'number') {
+            setText(".meta-rating", "&#9733; " + data.vote_average.toFixed(1));
+          }
+
+          // runtime
+          if (data.runtime) {
+            const hours = Math.floor(data.runtime / 60);
+            const mins  = data.runtime % 60;
+            const runtimeStr = hours + "h " + mins + "m";
+            setText(".meta-runtime", runtimeStr);
+            setNthText(MoviesPageDesc, 3, runtimeStr);
+          }
+
+          // budget / box office
+          setNthText(MoviesPageDesc, 4, formatMoney(data.budget));
+          setNthText(MoviesPageDesc, 5, formatMoney(data.revenue));
+
+          // language (TMDB sometimes returns empty array)
+          if (data.spoken_languages && data.spoken_languages.length > 0) {
+            setNthText(MoviesPageDesc, 6, data.spoken_languages[0].english_name || data.spoken_languages[0].name);
+          }
+
+          // origin country
+          if (data.origin_country && data.origin_country.length > 0) {
+            setNthText(MoviesPageDesc, 7, data.origin_country[0]);
+          }
+        })
+        .catch(err => console.error('Failed to load movie details:', err));
+
+      // ── CAST ──
+      fetch(`/api/tmdb/movie/${movieId}/credits`, { credentials: 'include' })
+        .then(res => {
+          if (!res.ok) throw new Error(`HTTP ${res.status} fetching credits`);
+          return res.json();
+        })
+        .then(data => {
+          console.log('credits:', data);
+
+          const actorsEls = document.querySelectorAll(".cast-name");
+          const rolesEls  = document.querySelectorAll(".cast-role");
+          const photosEls = document.querySelectorAll(".cast-avatar");
+          const cast = data.cast || [];
+
+          // Loop only as far as both data and DOM allow
+          const limit = Math.min(actorsEls.length, cast.length);
+          for (let i = 0; i < limit; i++) {
+            if (actorsEls[i]) actorsEls[i].innerHTML = cast[i].name || '';
+            if (rolesEls[i])  rolesEls[i].innerHTML  = cast[i].character || '';
+
+            const img = photosEls[i] && photosEls[i].querySelector("img");
+            if (img) {
+              if (cast[i].profile_path) {
+                img.src = "https://image.tmdb.org/t/p/w185" + cast[i].profile_path;
+              } else {
+                // No photo available: hide the broken image
+                img.style.display = 'none';
+              }
+              img.alt = cast[i].name || '';
+            }
+          }
+        })
+        .catch(err => console.error('Failed to load cast:', err));
+
+      // ── RELEASE DATES / CERTIFICATIONS ──
+      fetch(`/api/tmdb/movie/${movieId}/release_dates`, { credentials: 'include' })
+        .then(res => {
+          if (!res.ok) throw new Error(`HTTP ${res.status} fetching release_dates`);
+          return res.json();
+        })
+        .then(data => {
+          console.log('release_dates:', data);
+
+          // Find the US certification (G, PG, PG-13, R, etc.)
+          const usEntry = (data.results || []).find(r => r.iso_3166_1 === 'US');
+          if (usEntry && usEntry.release_dates && usEntry.release_dates.length > 0) {
+            // Find the first entry with a non-empty certification
+            const cert = usEntry.release_dates.find(d => d.certification);
+            if (cert) setText(".meta-rated", cert.certification);
+          }
+        })
+        .catch(err => console.error('Failed to load release dates:', err));
+
+      // ── REVIEWS ──
+      // Load reviews for this movie from our DB
+      loadReviews();
+    }
+
+    // ── ADMIN CONTROLS ──
+    // TODO: On page load, check user role and show admin actions if admin
+    // fetch('/api/me').then(r => r.json()).then(user => {
+    //   if (user.role === 'admin') {
+    //     document.querySelectorAll('.admin-actions').forEach(el => el.style.display = 'flex');
+    //   }
+    // });
+  </script>
+
+  <!-- ── AUTH NAV (login state) ── -->
+  <script>
+    (function() {
+      const user = localStorage.getItem("cloudflix_user");
+      const navRight = document.getElementById("navRight");
+      if (!navRight) return;
+
+      if (user) {
+        const initial = user.charAt(0).toUpperCase();
+        navRight.innerHTML = `
+          <span class="nav-username" style="color:var(--muted);font-size:13px">Hi, ${user}</span>
+          <div class="nav-avatar">${initial}</div>
+          <a class="nav-logout" href="#" id="logoutBtn">Sign Out</a>
+        `;
+        document.getElementById("logoutBtn").addEventListener("click", function(e) {
+          e.preventDefault();
+          localStorage.removeItem("cloudflix_user");
+          localStorage.removeItem("cloudflix_role");
+          fetch("/logout", { method: "POST", credentials: "include" }).finally(() => {
+            window.location.href = "login.html";
+          });
+        });
+      } else {
+        navRight.innerHTML = `
+          <a class="nav-logout" href="login.html">Login or Create Account</a>
+        `;
+      }
+    })();
+  </script>
+
+</body>
+</html>

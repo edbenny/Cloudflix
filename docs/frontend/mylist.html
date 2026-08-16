@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CloudFlix – Watchlist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="mylist.css" rel="stylesheet">
+</head>
+<body>
+
+  <nav>
+    <a class="logo" href="index.html">CloudFlix</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="mylist.html" class="active">Watchlist</a>
+      <a href="browse.html">Browse</a>
+      <a href="profile.html">Profile</a>
+    </div>
+    <div class="nav-right" id="navRight">
+      <!-- Populated by JS below based on login state -->
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <div class="page-title">My <span>Watchlist</span></div>
+      <div class="page-subtitle">Movies you've saved to watch later</div>
+    </div>
+    <div class="list-stats">
+      <div class="list-stat">
+        <div class="list-stat-num" id="totalCount">8</div>
+        <div class="list-stat-label">Saved</div>
+      </div>
+      <div class="list-stat">
+        <div class="list-stat-num">3</div>
+        <div class="list-stat-label">Genres</div>
+      </div>
+      <div class="list-stat">
+        <div class="list-stat-num">7.9</div>
+        <div class="list-stat-label">Avg Rating</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span style="color:var(--muted);font-size:13px;align-self:center;margin-right:4px">Sort:</span>
+      <button class="sort-btn active" onclick="sortList('recent', this)">Recently Added</button>
+      <button class="sort-btn" onclick="sortList('rating', this)">Highest Rated</button>
+      <button class="sort-btn" onclick="sortList('year', this)">Newest First</button>
+      <button class="sort-btn" onclick="sortList('alpha', this)">A – Z</button>
+    </div>
+    <div class="toolbar-right">
+      <button class="view-btn active" id="gridViewBtn" onclick="setView('grid')" title="Grid view">&#9783;</button>
+      <button class="view-btn" id="listViewBtn" onclick="setView('list')" title="List view">&#9776;</button>
+    </div>
+  </div>
+
+  <!-- MOVIES CONTAINER -->
+  <div class="movies-container">
+
+    <!-- GRID VIEW -->
+    <div class="movies-grid" id="gridView">
+      <!-- Populated by JS via GET /api/watchlist -->
+    </div>
+
+    <!-- LIST VIEW -->
+    <div class="movies-list" id="listView" style="display:none">
+      <!-- Populated by JS via GET /api/watchlist -->
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">&#127916;</div>
+      <div class="empty-title">Your list is empty</div>
+      <div class="empty-sub">Browse movies and hit "+ My List" to save them here</div>
+      <a class="empty-btn" href="browse.html">Browse Movies</a>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-logo">CloudFlix</div>
+    <div class="footer-text">IT 342 &nbsp;&middot;&nbsp; Cloud Computing Project &nbsp;&middot;&nbsp; Built on AWS</div>
+    <div class="footer-text">&copy; 2025 CloudFlix</div>
+  </footer>
+
+  <script src="watchlist.js"></script>
+  <script>
+    let currentView = 'grid';
+    let items = [];          // watchlist data from server
+    let currentSort = 'date'; // date | rating | alpha
+
+    function setView(view) {
+      currentView = view;
+      document.getElementById('gridView').style.display = view === 'grid' ? 'grid' : 'none';
+      document.getElementById('listView').style.display = view === 'list' ? 'flex' : 'none';
+      document.getElementById('gridViewBtn').classList.toggle('active', view === 'grid');
+      document.getElementById('listViewBtn').classList.toggle('active', view === 'list');
+    }
+
+    function sortList(type, btn) {
+      document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentSort = type;
+      renderAll();
+    }
+
+    function applySort(arr) {
+      const sorted = arr.slice();
+      if (currentSort === 'rating') {
+        sorted.sort((a, b) => (b.vote_average || 0) - (a.vote_average || 0));
+      } else if (currentSort === 'alpha') {
+        sorted.sort((a, b) => (a.movie_title || '').localeCompare(b.movie_title || ''));
+      } else {
+        // 'date' (default) — most-recently-added first
+        sorted.sort((a, b) => new Date(b.added_at) - new Date(a.added_at));
+      }
+      return sorted;
+    }
+
+    function formatAdded(iso) {
+      if (!iso) return '';
+      const d = new Date(iso);
+      if (isNaN(d)) return '';
+      return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    }
+
+    function renderGrid(arr) {
+      const grid = document.getElementById('gridView');
+      grid.innerHTML = '';
+      arr.forEach(item => {
+        const link = document.createElement('a');
+        link.href = `movie.html?id=${item.tmdb_id}`;
+        link.style.cssText = 'text-decoration:none;color:inherit;display:block';
+        link.innerHTML = `
+          <div class="movie-card">
+            <div class="card-poster" style="background-image:url('${Watchlist.posterUrl(item.poster_path)}'); background-size:cover; background-position:center; background-repeat:no-repeat;"></div>
+            <div class="card-overlay">
+              <div class="card-play">&#9654;</div>
+              <div class="card-overlay-actions">
+                <button class="card-btn remove" onclick="event.preventDefault();event.stopPropagation();removeFromWatchlist(${item.tmdb_id})">Remove</button>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-title-text">${Watchlist.esc(item.movie_title)}</div>
+              <div class="card-meta-row">
+                <span class="card-year">${item.release_year || ''}</span>
+                <span class="card-rating">${item.vote_average != null ? '&#9733; ' + item.vote_average.toFixed(1) : ''}</span>
+              </div>
+            </div>
+          </div>
+        `;
+        grid.appendChild(link);
+      });
+    }
+
+    function renderList(arr) {
+      const list = document.getElementById('listView');
+      list.innerHTML = '';
+      arr.forEach(item => {
+        const row = document.createElement('a');
+        row.href = `movie.html?id=${item.tmdb_id}`;
+        row.style.cssText = 'text-decoration:none;color:inherit;display:block';
+        row.innerHTML = `
+          <div class="list-item">
+            <div class="list-poster" style="background-image:url('${Watchlist.posterUrl(item.poster_path)}'); background-size:cover; background-position:center;"></div>
+            <div class="list-info">
+              <div class="list-title">${Watchlist.esc(item.movie_title)}</div>
+              <div class="list-meta">
+                ${item.vote_average != null ? '<span class="list-rating">&#9733; ' + item.vote_average.toFixed(1) + '</span>' : ''}
+                ${item.release_year ? '<span class="list-year">' + item.release_year + '</span>' : ''}
+              </div>
+            </div>
+            <div class="list-actions">
+              <button class="list-btn remove" onclick="event.preventDefault();event.stopPropagation();removeFromWatchlist(${item.tmdb_id})">Remove</button>
+            </div>
+            <div class="list-added">Added<br>${formatAdded(item.added_at)}</div>
+          </div>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function renderAll() {
+      const sorted = applySort(items);
+      renderGrid(sorted);
+      renderList(sorted);
+
+      document.getElementById('totalCount').textContent = items.length;
+
+      if (items.length === 0) {
+        document.getElementById('gridView').style.display = 'none';
+        document.getElementById('listView').style.display = 'none';
+        document.getElementById('emptyState').classList.add('visible');
+      } else {
+        document.getElementById('emptyState').classList.remove('visible');
+        // restore whichever view was active
+        setView(currentView);
+      }
+    }
+
+    async function loadWatchlist() {
+      if (!Watchlist.isLoggedIn()) {
+        // Send unauthenticated users to login
+        window.location.href = 'login.html';
+        return;
+      }
+      try {
+        items = await Watchlist.getAll();
+      } catch (err) {
+        console.error(err);
+        items = [];
+      }
+      renderAll();
+    }
+
+    async function removeFromWatchlist(tmdbId) {
+      if (!confirm('Remove from your watchlist?')) return;
+      const ok = await Watchlist.remove(tmdbId);
+      if (ok) {
+        items = items.filter(i => i.tmdb_id !== tmdbId);
+        renderAll();
+      }
+    }
+
+    loadWatchlist();
+  </script>
+
+  <!-- ── AUTH NAV (login state) ── -->
+  <script>
+    (function() {
+      const user = localStorage.getItem("cloudflix_user");
+      const navRight = document.getElementById("navRight");
+      if (!navRight) return;
+
+      if (user) {
+        const initial = user.charAt(0).toUpperCase();
+        navRight.innerHTML = `
+          <span class="nav-username">Hi, ${user}</span>
+          <div class="nav-avatar">${initial}</div>
+          <a class="nav-logout" href="#" id="logoutBtn">Sign Out</a>
+        `;
+        document.getElementById("logoutBtn").addEventListener("click", function(e) {
+          e.preventDefault();
+          localStorage.removeItem("cloudflix_user");
+          localStorage.removeItem("cloudflix_role");
+          fetch("/logout", { method: "POST", credentials: "include" }).finally(() => {
+            window.location.href = "login.html";
+          });
+        });
+      } else {
+        navRight.innerHTML = `
+          <a class="nav-logout" href="login.html">Login or Create Account</a>
+        `;
+      }
+    })();
+  </script>
+</body>
+</html>

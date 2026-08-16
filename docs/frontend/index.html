@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CloudFlix – Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="index.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="logo" href="index.html">CloudFlix</a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="mylist.html">Watchlist</a>
+      <a href="browse.html">Browse</a>
+      <a href="profile.html">Profile</a>
+    </div>
+    <div class="nav-right" id="navRight">
+      <!-- Populated by JS below based on login state -->
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-art">
+      <img src="dunePromotionalImage.jpg" style="width:2000px; height:3000px;">
+      <div class="hero-art-inner">
+      </div>
+    </div>
+    <div class="hero-backdrop"></div>
+    <div class="hero-content">
+      <div class="hero-badge">&#9733; Featured Tonight</div>
+      <div class="hero-title">Dune:<br><span>Part Two</span></div>
+      <div class="hero-meta">
+        <span class="rating">&#9733; 8.5</span>
+        <span class="year">2024 &nbsp;·&nbsp; 2h 46m</span>
+        <span class="genre-pill">Sci-Fi</span>
+        <span class="genre-pill">Epic</span>
+        <span class="genre-pill">Drama</span>
+      </div>
+      <p class="hero-desc">Paul Atreides unites with Chani and the Fremen while on a warpath of revenge against the conspirators who destroyed his family.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.location.href='https://www.youtube.com/watch?v=Way9Dexny3w'">&#9654; Watch Trailer</button>
+          
+        <button class="btn-secondary">+ Add to My List</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-wrap">
+    <div class="search-box">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" id="searchInput" placeholder="Search by movie title, genre, or star...">
+      <div class="filter-group">
+        <button class="filter-btn active" onclick="setFilter(this)">All</button>
+        <button class="filter-btn" onclick="setFilter(this)">Genre</button>
+        <button class="filter-btn" onclick="setFilter(this)">Actor</button>
+        <button class="filter-btn" onclick="setFilter(this)">Year</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRENDING -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">Trending Now</div>
+      <a class="section-link" href="browse.html">See all &rarr;</a>
+    </div>
+    <div class="movies-grid">
+      <div class="movie-card">
+        <div class="card-poster" id="firstmoviePosterHTML" style="background-image:url(interstellarPoster.jpg); background-size:cover;"></div>
+        <div class="card-overlay">
+          <div class="card-play">&#9654;</div>
+          <div class="card-actions">
+            <button class="card-action-btn">+ List</button>
+            <button class="card-action-btn">Review</button>
+          </div>
+        </div>
+        <div class="card-info">
+          <div class="card-title-text" id="firstmovieTitleHTML">Interstellar</div>
+          <div class="card-meta"><span class="card-year">2014</span><span class="card-rating">&#9733; 8.7</span></div>
+        </div>
+      </div>
+      <div class="movie-card">
+        <div class="card-poster" style="background-image:url(gladiatorPoster.jpg); background-size:cover;"></div>
+        <div class="card-overlay">
+          <div class="card-play">&#9654;</div>
+          <div class="card-actions">
+            <button class="card-action-btn">+ List</button>
+            <button class="card-action-btn">Review</button>
+          </div>
+        </div>
+        <div class="card-info">
+          <div class="card-title-text">Gladiator II</div>
+          <div class="card-meta"><span class="card-year">2024</span><span class="card-rating">&#9733; 7.2</span></div>
+        </div>
+      </div>
+      <div class="movie-card">
+        <div class="card-poster" style="background-image:url(avatarPoster.jpg); background-size:cover;"></div>
+        <div class="card-overlay">
+          <div class="card-play">&#9654;</div>
+          <div class="card-actions">
+            <button class="card-action-btn">+ List</button>
+            <button class="card-action-btn">Review</button>
+          </div>
+        </div>
+        <div class="card-info">
+          <div class="card-title-text">Avatar: Fire and Ash</div>
+          <div class="card-meta"><span class="card-year">2025</span><span class="card-rating">&#9733; 7.3</span></div>
+        </div>
+      </div>
+      <div class="movie-card">
+        <div class="card-poster" style="background-image:url(projecthailmaryPoster.jpg); background-size:cover;"></div>
+        <div class="card-overlay">
+          <div class="card-play">&#9654;</div>
+          <div class="card-actions">
+            <button class="card-action-btn">+ List</button>
+            <button class="card-action-btn">Review</button>
+          </div>
+        </div>
+        <div class="card-info">
+          <div class="card-title-text">Project Hail Mary</div>
+          <div class="card-meta"><span class="card-year">2026</span><span class="card-rating">&#9733; 8.4</span></div>
+        </div>
+      </div>
+      <div class="movie-card">
+        <div class="card-poster" style="background-image:url(martysupremePoster.jpg); background-size:cover;"></div>
+        <div class="card-overlay">
+          <div class="card-play">&#9654;</div>
+          <div class="card-actions">
+            <button class="card-action-btn">+ List</button>
+            <button class="card-action-btn">Review</button>
+          </div>
+        </div>
+        <div class="card-info">
+          <div class="card-title-text">Marty Supreme</div>
+          <div class="card-meta"><span class="card-year">2025</span><span class="card-rating">&#9733; 7.7</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MY WATCH LIST -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">My Watch List</div>
+      <a class="section-link" href="mylist.html">Manage &rarr;</a>
+    </div>
+    <div class="movies-grid" id="homeWatchlistGrid">
+      <!-- Populated by JS via GET /api/watchlist; first 5 shown -->
+    </div>
+    <div id="homeWatchlistEmpty" style="display:none; padding:20px 0; color:var(--muted); font-size:14px;">
+      Your watchlist is empty. Browse movies and click "+ List" to add some.
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">CloudFlix</div>
+    <div class="footer-text">IT 342 &nbsp;·&nbsp; Cloud Computing Project &nbsp;·&nbsp; Built on AWS &nbsp;·&nbsp; Using TMDB API</div>
+    <div class="footer-text">&copy; 2025 CloudFlix</div>
+  </footer>
+
+  <!-- ── AUTH NAV (login state) ── -->
+  <script>
+    function setFilter(btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    (function() {
+      const user = localStorage.getItem("cloudflix_user");
+      const navRight = document.getElementById("navRight");
+
+      if (user) {
+        // LOGGED IN — show username, avatar initial, and sign out
+        const initial = user.charAt(0).toUpperCase();
+        navRight.innerHTML = `
+          <span class="nav-username">Hi, ${user}</span>
+          <div class="nav-avatar">${initial}</div>
+          <a class="nav-logout" href="#" id="logoutBtn">Sign Out</a>
+        `;
+        document.getElementById("logoutBtn").addEventListener("click", function(e) {
+          e.preventDefault();
+          localStorage.removeItem("cloudflix_user");
+          localStorage.removeItem("cloudflix_role");
+          fetch("/logout", { method: "POST", credentials: "include" }).finally(() => {
+            window.location.href = "login.html";
+          });
+        });
+      } else {
+        // LOGGED OUT — show login button only, no username
+        navRight.innerHTML = `
+          <a class="nav-logout" href="login.html">Login or Create Account</a>
+        `;
+      }
+    })();
+  </script>
+
+  <!-- ── TMDB API: TRENDING NOW (via Flask proxy) ── -->
+  <script>
+    // The bearer token now lives on the Flask server, not in the browser.
+    // We just call our own /api/tmdb/* endpoints.
+    fetch('/api/tmdb/trending', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => {
+        const movieInfo = data.results;
+
+        // Only target the FIRST .movies-grid (Trending Now), not the watchlist grid
+        const trendingGrid = document.querySelectorAll(".movies-grid")[0];
+        if (!trendingGrid) return;
+
+        const MovieTitleDOM   = trendingGrid.querySelectorAll(".card-title-text");
+        const MoviePosterDOM  = trendingGrid.querySelectorAll(".card-poster");
+        const MovieYearsDOM   = trendingGrid.querySelectorAll(".card-year");
+        const MovieRatingsDOM = trendingGrid.querySelectorAll(".card-rating");
+
+        // Top 5 trending
+        for (let i = 0; i < 5 && i < movieInfo.length; i++) {
+          MovieTitleDOM[i].innerHTML  = movieInfo[i].title;
+          MoviePosterDOM[i].style.backgroundImage = "url('https://image.tmdb.org/t/p/original/" + movieInfo[i].poster_path + "')";
+          if (movieInfo[i].release_date) {
+            MovieYearsDOM[i].innerHTML = movieInfo[i].release_date.slice(0,4);
+          }
+          MovieRatingsDOM[i].innerHTML = "&#9733;" + movieInfo[i].vote_average.toFixed(1);
+        }
+      })
+      .catch(err => console.error(err));
+  </script>
+
+  <!-- ── WATCHLIST ── -->
+  <script src="watchlist.js"></script>
+  <script>
+    // Show the first 5 items of the user's watchlist on the homepage.
+    // Logged-out users see a sign-in prompt; empty watchlist shows a hint.
+    (async function () {
+      const grid  = document.getElementById('homeWatchlistGrid');
+      const empty = document.getElementById('homeWatchlistEmpty');
+      if (!grid) return;
+
+      if (!Watchlist.isLoggedIn()) {
+        grid.style.display = 'none';
+        empty.style.display = 'block';
+        empty.innerHTML = '<a href="login.html" style="color:var(--red);text-decoration:none">Sign in</a> to start your watchlist.';
+        return;
+      }
+
+      let items = [];
+      try {
+        items = await Watchlist.getAll();
+      } catch (err) {
+        console.error(err);
+      }
+
+      if (items.length === 0) {
+        grid.style.display = 'none';
+        empty.style.display = 'block';
+        return;
+      }
+
+      grid.innerHTML = '';
+      items.slice(0, 5).forEach(item => {
+        const card = document.createElement('a');
+        card.href = `movie.html?id=${item.tmdb_id}`;
+        card.style.cssText = 'text-decoration:none;color:inherit;display:block';
+        card.innerHTML = `
+          <div class="movie-card">
+            <div class="card-poster" style="background-image:url('${Watchlist.posterUrl(item.poster_path)}'); background-size:cover; background-position:center; background-repeat:no-repeat;"></div>
+            <div class="card-overlay">
+              <div class="card-play">&#9654;</div>
+              <div class="card-actions">
+                <button class="card-action-btn" onclick="event.preventDefault();event.stopPropagation();removeFromHomeWatchlist(${item.tmdb_id})">Remove</button>
+              </div>
+            </div>
+            <div class="card-info">
+              <div class="card-title-text">${Watchlist.esc(item.movie_title)}</div>
+              <div class="card-meta">
+                <span class="card-year">${item.release_year || ''}</span>
+                <span class="card-rating">${item.vote_average != null ? '&#9733; ' + item.vote_average.toFixed(1) : ''}</span>
+              </div>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    })();
+
+    async function removeFromHomeWatchlist(tmdbId) {
+      if (!confirm('Remove this from your watchlist?')) return;
+      const ok = await Watchlist.remove(tmdbId);
+      if (ok) location.reload();
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CloudFlix – Browse</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="browse.css" rel="stylesheet">
+</head>
+<body>
+
+  <nav>
+    <a class="logo" href="index.html">CloudFlix</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="mylist.html">Watchlist</a>
+      <a href="browse.html" class="active">Browse</a>
+      <a href="profile.html">Profile</a>
+    </div>
+    <div class="nav-right" id="navRight">
+      <!-- Populated by JS below based on login state -->
+    </div>
+  </nav>
+
+  <!-- SEARCH HERO -->
+  <div class="search-hero">
+    <div class="search-hero-title">Browse <span>Movies</span></div>
+    <div class="search-hero-sub">Search by title, genre, actor, or year</div>
+    <div class="search-box">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" id="searchInput" placeholder="e.g. &quot;Dune&quot;, &quot;Sci-Fi&quot;, &quot;Tom Hanks&quot;, &quot;2024&quot;..." oninput="handleSearch(this.value)">
+      <button class="search-submit" onclick="handleSearch(document.getElementById('searchInput').value)">Search</button>
+    </div>
+  </div>
+
+  <!-- FILTERS BAR -->
+  <div class="filters-bar">
+    <span class="filter-group-label">Genre</span>
+    <div class="filter-scroll" id="genreFilters">
+      <div class="filter-chip" onclick="toggleFilter(this,'genre','Action')">Action</div>
+      <div class="filter-chip" onclick="toggleFilter(this,'genre','Comedy')">Comedy</div>
+      <div class="filter-chip" onclick="toggleFilter(this,'genre','Drama')">Drama</div>
+      <div class="filter-chip" onclick="toggleFilter(this,'genre','Horror')">Horror</div>
+      <div class="filter-chip" onclick="toggleFilter(this,'genre','Sci-Fi')">Sci-Fi</div>
+      <div class="filter-chip" onclick="toggleFilter(this,'genre','Thriller')">Thriller</div>
+      <div class="filter-chip" onclick="toggleFilter(this,'genre','Romance')">Romance</div>
+      <div class="filter-chip" onclick="toggleFilter(this,'genre','Animation')">Animation</div>
+      <div class="filter-chip" onclick="toggleFilter(this,'genre','Documentary')">Documentary</div>
+      <div class="filter-chip" onclick="toggleFilter(this,'genre','History')">History</div>
+    </div>
+    <div class="filter-divider"></div>
+    <span class="filter-group-label">Year</span>
+    <div class="filter-scroll" id="yearFilters">
+      <div class="filter-chip" onclick="toggleFilter(this,'year','2026')">2026</div>
+      <div class="filter-chip" onclick="toggleFilter(this,'year','2025')">2025</div>
+      <div class="filter-chip" onclick="toggleFilter(this,'year','2024')">2024</div>
+      <div class="filter-chip" onclick="toggleFilter(this,'year','2023')">2023</div>
+      <div class="filter-chip" onclick="toggleFilter(this,'year','2020s')">2020s</div>
+      <div class="filter-chip" onclick="toggleFilter(this,'year','2010s')">2010s</div>
+      <div class="filter-chip" onclick="toggleFilter(this,'year','2000s')">2000s</div>
+    </div>
+    <div class="filter-divider"></div>
+    <span class="filter-group-label">Rating</span>
+    <div class="filter-scroll" id="ratingFilters">
+      <div class="filter-chip" onclick="toggleFilter(this,'rating','9+')">&#9733; 9+</div>
+      <div class="filter-chip" onclick="toggleFilter(this,'rating','8+')">&#9733; 8+</div>
+      <div class="filter-chip" onclick="toggleFilter(this,'rating','7+')">&#9733; 7+</div>
+    </div>
+  </div>
+
+  <!-- ACTIVE FILTERS -->
+  <div class="active-filters" id="activeFilters">
+    <span class="active-filter-label">Filters:</span>
+    <div id="activeTagsContainer"></div>
+    <span class="clear-all" onclick="clearAllFilters()">Clear all</span>
+  </div>
+
+  <!-- TRENDING STRIP -->
+  <div class="trending-strip" id="trendingStrip" style="padding-top:24px">
+    <div class="strip-title">Trending <span class="trending-badge">LIVE</span></div>
+    <div class="trending-row">
+      <div class="trending-card"><div class="trending-rank">1</div><div class="trending-poster" style="background-image:url(dunePromotionalImage.jpg); background-size:cover;"></div><div class="trending-info"><div class="trending-title">Dune: Part Two</div><div class="trending-rating">&#9733; 8.5</div></div></div>
+      <div class="trending-card"><div class="trending-rank">2</div><div class="trending-poster" style="background-image:url(projecthailmaryPoster.jpg); background-size:cover;"></div><div class="trending-info"><div class="trending-title">Project Hail Mary</div><div class="trending-rating">&#9733; 9.0</div></div></div>
+      <div class="trending-card"><div class="trending-rank">3</div><div class="trending-poster" style="background-image:url(martysupremePoster.jpg); background-size:cover;"></div><div class="trending-info"><div class="trending-title">Marty Supreme</div><div class="trending-rating">&#9733; 8.1</div></div></div>
+      <div class="trending-card"><div class="trending-rank">4</div><div class="trending-poster" style="background-image:url(blackpantherPoster.jpg); background-size:cover;"></div><div class="trending-info"><div class="trending-title">Black Panther</div><div class="trending-rating">&#9733; 8.3</div></div></div>
+      <div class="trending-card"><div class="trending-rank">5</div><div class="trending-poster" style="background-image:url(avatarPoster.jpg); background-size:cover;"></div><div class="trending-info"><div class="trending-title">Avatar: Fire and Ash</div><div class="trending-rating">&#9733; 7.8</div></div></div>
+      <div class="trending-card"><div class="trending-rank">6</div><div class="trending-poster" style="background-image:url(interstellarPoster.jpg); background-size:cover;"></div><div class="trending-info"><div class="trending-title">Interstellar</div><div class="trending-rating">&#9733; 8.7</div></div></div>
+      <div class="trending-card"><div class="trending-rank">7</div><div class="trending-poster" style="background-image:url(furiosaamadmaxsagaPoster.jpg); background-size:cover;"></div><div class="trending-info"><div class="trending-title">Furiosa: A Mad Max Saga</div><div class="trending-rating">&#9733; 7.9</div></div></div>
+      <div class="trending-card"><div class="trending-rank">8</div><div class="trending-poster" style="background-image:url(gladiatorPoster.jpg); background-size:cover;"></div><div class="trending-info"><div class="trending-title">Gladiator II</div><div class="trending-rating">&#9733; 7.2</div></div></div>
+      <div class="trending-card"><div class="trending-rank">9</div><div class="trending-poster" style="background-image:url(gladiatorPoster.jpg); background-size:cover;"></div><div class="trending-info"><div class="trending-title">Gladiator II</div><div class="trending-rating">&#9733; 7.2</div></div></div>
+      <div class="trending-card"><div class="trending-rank">10</div><div class="trending-poster" style="background-image:url(gladiatorPoster.jpg); background-size:cover;"></div><div class="trending-info"><div class="trending-title">Gladiator II</div><div class="trending-rating">&#9733; 7.2</div></div></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results-header">
+    <div>
+      <div class="results-title" id="resultsTitle">All Movies</div>
+      <div class="results-count" id="resultsCount">Showing 10 movies</div>
+    </div>
+    <div class="results-sort">
+      <label>Sort by</label>
+      <select class="sort-select" onchange="handleSort(this.value)">
+        <option value="trending">Trending</option>
+        <option value="rating">Highest Rated</option>
+        <option value="newest">Newest First</option>
+        <option value="oldest">Oldest First</option>
+        <option value="alpha">A – Z</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="movies-section">
+    <div class="movies-grid" id="moviesGrid">
+    </div>
+
+    <div class="no-results" id="noResults">
+      <div class="no-results-icon">&#128269;</div>
+      <div class="no-results-text">No movies match your filters. Try adjusting your search.</div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">CloudFlix</div>
+    <div class="footer-text">IT 342 &nbsp;&middot;&nbsp; Cloud Computing Project &nbsp;&middot;&nbsp; Built on AWS &nbsp;&middot;&nbsp; Using TMDB API</div>
+    <div class="footer-text">&copy; 2025 CloudFlix</div>
+  </footer>
+
+  <!-- ── AUTH NAV (login state) ── -->
+  <script>
+    (function() {
+      const user = localStorage.getItem("cloudflix_user");
+      const navRight = document.getElementById("navRight");
+
+      if (user) {
+        const initial = user.charAt(0).toUpperCase();
+        navRight.innerHTML = `
+          <span class="nav-username">Hi, ${user}</span>
+          <div class="nav-avatar">${initial}</div>
+          <a class="nav-logout" href="#" id="logoutBtn">Sign Out</a>
+        `;
+        document.getElementById("logoutBtn").addEventListener("click", function(e) {
+          e.preventDefault();
+          localStorage.removeItem("cloudflix_user");
+          localStorage.removeItem("cloudflix_role");
+          fetch("/logout", { method: "POST", credentials: "include" }).finally(() => {
+            window.location.href = "login.html";
+          });
+        });
+      } else {
+        navRight.innerHTML = `
+          <a class="nav-logout" href="login.html">Login or Create Account</a>
+        `;
+      }
+    })();
+  </script>
+
+  <!-- ── FILTERS / SEARCH / SORT ── -->
+  <script>
+    const activeFilters = { genre: null, year: null, rating: null };
+
+    function toggleFilter(chip, type, value) {
+      const isActive = chip.classList.contains('active');
+      // Clear other chips of same type
+      document.querySelectorAll('#' + type + 'Filters .filter-chip').forEach(c => c.classList.remove('active'));
+      if (!isActive) {
+        chip.classList.add('active');
+        activeFilters[type] = value;
+      } else {
+        activeFilters[type] = null;
+      }
+      updateActiveFilterTags();
+      filterMovies();
+    }
+
+    function updateActiveFilterTags() {
+      const container = document.getElementById('activeTagsContainer');
+      const bar = document.getElementById('activeFilters');
+      container.innerHTML = '';
+      let hasAny = false;
+      for (const [type, value] of Object.entries(activeFilters)) {
+        if (value) {
+          hasAny = true;
+          const tag = document.createElement('div');
+          tag.className = 'active-tag';
+          tag.innerHTML = value + ' <button onclick="removeFilter(\'' + type + '\')">&times;</button>';
+          container.appendChild(tag);
+        }
+      }
+      bar.classList.toggle('visible', hasAny);
+    }
+
+    function removeFilter(type) {
+      activeFilters[type] = null;
+      document.querySelectorAll('#' + type + 'Filters .filter-chip').forEach(c => c.classList.remove('active'));
+      updateActiveFilterTags();
+      filterMovies();
+    }
+
+    function clearAllFilters() {
+      for (const type in activeFilters) activeFilters[type] = null;
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      document.getElementById('searchInput').value = '';
+      updateActiveFilterTags();
+      filterMovies();
+    }
+
+    function handleSearch(query) {
+      filterMovies(query);
+      const strip = document.getElementById('trendingStrip');
+      strip.style.display = query.trim() ? 'none' : 'block';
+    }
+
+    function filterMovies(query) {
+      const q = (query || document.getElementById('searchInput').value).toLowerCase().trim();
+      const cards = document.querySelectorAll('#moviesGrid .movie-card');
+      let visible = 0;
+
+      cards.forEach(card => {
+        const genre   = (card.dataset.genre  || '').toLowerCase();
+        const year    = card.dataset.year    || '';
+        const rating  = parseFloat(card.dataset.rating) || 0;
+        const title   = (card.dataset.title  || '').toLowerCase();
+        const actor   = (card.dataset.actor  || '').toLowerCase();
+
+        let show = true;
+
+        if (q) {
+          show = title.includes(q) || genre.includes(q) || actor.includes(q) || year.includes(q);
+        }
+        if (show && activeFilters.genre)  show = genre.includes(activeFilters.genre.toLowerCase());
+        if (show && activeFilters.year) {
+          const yf = activeFilters.year;
+          if (yf === '2020s') show = parseInt(year) >= 2020;
+          else if (yf === '2010s') show = parseInt(year) >= 2010 && parseInt(year) < 2020;
+          else if (yf === '2000s') show = parseInt(year) >= 2000 && parseInt(year) < 2010;
+          else show = year === yf;
+        }
+        if (show && activeFilters.rating) show = rating >= parseFloat(activeFilters.rating);
+
+        // wrappers (.movie-link) hold the cards — toggle the wrapper
+        const wrapper = card.closest('.movie-link') || card;
+        wrapper.style.display = show ? 'block' : 'none';
+        if (show) visible++;
+      });
+
+      document.getElementById('resultsCount').textContent = 'Showing ' + visible + ' movie' + (visible !== 1 ? 's' : '');
+      document.getElementById('noResults').classList.toggle('visible', visible === 0);
+    }
+
+    function handleSort(value) {
+      // TODO: Connect to backend — fetch('/api/movies?sort=' + value + '&genre=...')
+      console.log('Sort by:', value);
+    }
+
+    function addToList(btn) {
+      btn.textContent = '✓ Saved';
+      btn.style.background = 'rgba(34,197,94,0.3)';
+      btn.style.borderColor = 'rgba(34,197,94,0.5)';
+      btn.disabled = true;
+      // TODO: fetch('/api/watchlist', { method: 'POST', body: JSON.stringify({ movieId: ... }) })
+    }
+  </script>
+
+  <!-- ── WATCHLIST QUICK-ADD ── -->
+  <script src="watchlist.js"></script>
+  <script>
+    async function quickAddToWatchlist(tmdbId, btn, title, posterPath, year, voteAvg) {
+      const result = await Watchlist.add({
+        tmdb_id:      tmdbId,
+        movie_title:  title,
+        poster_path:  posterPath || null,
+        release_year: year,
+        vote_average: voteAvg,
+      });
+      if (result) {
+        btn.textContent = '\u2713';
+        btn.style.background = 'rgba(34,197,94,0.85)';
+        btn.style.borderColor = 'rgba(34,197,94,1)';
+        btn.disabled = true;
+      }
+    }
+  </script>
+
+  <!-- ── TMDB API: TRENDING + DISCOVER via Flask proxy ── -->
+  <script>
+    // The bearer token now lives on the Flask server.
+    // We call our own /api/tmdb/* endpoints — no token in the browser.
+
+    // ── Trending strip ──
+    fetch('/api/tmdb/trending', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => {
+        const movieInfo = data.results;
+
+        const MovieTitleDOM   = document.querySelectorAll(".trending-title");
+        const MoviePosterDOM  = document.querySelectorAll(".trending-poster");
+        const MovieRatingsDOM = document.querySelectorAll(".trending-rating");
+
+        for (let i = 0; i < 10 && i < movieInfo.length; i++) {
+          MovieTitleDOM[i].innerHTML = movieInfo[i].title;
+          MoviePosterDOM[i].style.backgroundImage = "url('https://image.tmdb.org/t/p/original/" + movieInfo[i].poster_path + "')";
+          MovieRatingsDOM[i].innerHTML = "&#9733;" + movieInfo[i].vote_average.toFixed(1);
+        }
+      })
+      .catch(err => console.error(err));
+
+    // ── Infinite scroll: discover movies ──
+    let currentPage = 0;
+    let isLoading = false;
+
+    async function loadMoreMovies() {
+      if (isLoading) return;
+      isLoading = true;
+      currentPage++;
+
+      try {
+        const res = await fetch(`/api/tmdb/discover?page=${currentPage}`, { credentials: 'include' });
+        const data = await res.json();
+        appendMovies(data.results || []);
+      } catch (err) {
+        console.error(err);
+      }
+
+      isLoading = false;
+    }
+
+    function appendMovies(movies) {
+      const grid = document.getElementById("moviesGrid");
+
+      movies.forEach(movie => {
+        const link = document.createElement("a");
+        link.href = `movie.html?id=${movie.id}`;
+        link.className = "movie-link";
+
+        const card = document.createElement("div");
+        card.className = "movie-card";
+        // dataset for client-side filtering
+        card.dataset.title  = movie.title || '';
+        card.dataset.year   = movie.release_date ? movie.release_date.slice(0,4) : '';
+        card.dataset.rating = movie.vote_average || 0;
+        card.dataset.genre  = ''; // genre IDs are numeric from TMDB; filtering by genre name not wired yet
+        card.dataset.actor  = '';
+
+        card.innerHTML = `
+          <div class="card-poster" style="background-image:url('https://image.tmdb.org/t/p/w500${movie.poster_path}'); background-size:cover; background-position:center; background-repeat:no-repeat;">
+            <div style="position:absolute;top:8px;right:8px;z-index:2">
+              <button onclick="event.preventDefault();event.stopPropagation();quickAddToWatchlist(${movie.id}, this, ${JSON.stringify(movie.title || '').replace(/"/g, '&quot;')}, ${JSON.stringify(movie.poster_path || '').replace(/"/g, '&quot;')}, ${movie.release_date ? parseInt(movie.release_date.slice(0,4), 10) : 'null'}, ${typeof movie.vote_average === 'number' ? movie.vote_average : 'null'})"
+                      style="background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.3);color:#fff;font-size:18px;width:32px;height:32px;border-radius:50%;cursor:pointer;line-height:1">+</button>
+            </div>
+          </div>
+          <div class="card-info">
+            <div class="card-title-text">${movie.title}</div>
+            <div class="card-meta-row">
+              <span class="card-year">${movie.release_date ? movie.release_date.slice(0,4) : 'N/A'}</span>
+              <span class="card-rating">&#9733; ${movie.vote_average.toFixed(1)}</span>
+            </div>
+          </div>
+        `;
+
+        link.appendChild(card);
+        grid.appendChild(link);
+      });
+
+      // update count after appending
+      const count = document.querySelectorAll('#moviesGrid .movie-card').length;
+      document.getElementById('resultsCount').textContent = 'Showing ' + count + ' movie' + (count !== 1 ? 's' : '');
+    }
+
+    // Kick off initial page load
+    loadMoreMovies();
+
+    window.addEventListener("scroll", () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 300) {
+        loadMoreMovies();
+      }
+    });
+  </script>
+
+</body>
+</html>
